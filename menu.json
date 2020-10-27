@@ -1,0 +1,15 @@
+[
+    {
+        "name": "基础底图",
+        "items": [
+            {
+                "name": "在线地图",
+                "url": "examples/html/core/index.html"
+            },
+            {
+                "name": "测试",
+                "url": "examples/html/core/mapType.html"
+            }
+        ]
+    }
+]
