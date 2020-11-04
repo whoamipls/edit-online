@@ -3,12 +3,48 @@
         "name": "基础底图",
         "items": [
             {
-                "name": "在线地图",
-                "url": "examples/html/core/index.html"
+                "name": "本地图片",
+                "url": "examples/view/basemap/localImage.html"
             },
             {
-                "name": "测试",
-                "url": "examples/html/core/mapType.html"
+                "name": "在线地图",
+                "url": "examples/view/basemap/online.html"
+            }
+        ]
+    },
+    {
+        "name": "控件",
+        "items": [
+            {
+                "name": "鼠标位置信息",
+                "url": "examples/view/control/mousePosition.html"
+            }
+        ]
+    },
+    {
+        "name": "矢量对象",
+        "items": [
+            {
+                "name": "动态点",
+                "url": "examples/view/vectordata/dynamicpoint.html"
+            }
+        ]
+    },
+    {
+        "name": "场景控制",
+        "items": [
+            {
+                "name": "天空盒",
+                "url": "examples/view/scene/skybox.html"
+            }
+        ]
+    },
+    {
+        "name": "场景特效",
+        "items": [
+            {
+                "name": "圆形扫描",
+                "url": "examples/view/sceneEffect/circleScan.html"
             }
         ]
     }

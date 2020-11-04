@@ -5,7 +5,7 @@
 
 body {
     font-size: 14px;
-    background: rgb(247, 247, 247);
+    background: #282a36 /*rgb(247, 247, 247);*/
 }
 
 header {
