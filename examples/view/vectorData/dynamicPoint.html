@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+    <script src="./examples/libs/Cesium/Cesium.js"></script>
+    <script src="./examples/libs/TMEarth/TMEarth.js"></script>
+    <link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="map" ref="map"></div>
+
+    <script type="text/javascript">
+        var map3d = new TMEarth.Map("map", {
+            fullscreenButton: true
+        });
+        // 设置相机
+        var lng = 116.591619, lat = 39.924079;
+        map3d.camera.setView({
+            destination: Cesium.Cartesian3.fromDegrees(lng, lat, 1000.0)
+        });
+        // 动态点
+        var point = new TMEarth.TwinklePoint(map3d, {
+            position: Cesium.Cartesian3.fromDegrees(lng, lat),
+            color: '#00ff00'
+        });
+    </script>
+</body>
+
+</html>

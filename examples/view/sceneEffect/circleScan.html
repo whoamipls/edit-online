@@ -1,0 +1,40 @@
+<!--
+ * @Author: ray
+ * @Date: 2020-11-04 16:06:02
+ * @LastEditTime: 2020-11-04 18:44:45
+ * @LastEditors: Please set LastEditors
+ * @Description: 圆形扫描
+ * @FilePath: \edit-online\examples\view\sceneEffect\extendCircle.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+    <script src="./examples/libs/Cesium/Cesium.js"></script>
+    <script src="./examples/libs/TMEarth/TMEarth.js"></script>
+    <link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="map" ref="map"></div>
+
+    <script type="text/javascript">
+        var map3d = new TMEarth.Map("map", {
+            terrainProvider: Cesium.createWorldTerrain()
+        });
+        map3d.scene.globe.depthTestAgainstTerrain = true;
+        // 视角
+        var lng = 115, lat = 39;
+        map3d.camera.setView({
+            destination: Cesium.Cartesian3.fromDegrees(lng, lat, 10000),
+        })
+        var cartographicCenter = new Cesium.Cartographic(Cesium.Math.toRadians(lng), Cesium.Math.toRadians(lat), 0);
+        var scanColor = new Cesium.Color(0.0, 1.0, 0.0, 1);
+        var circle = new TMEarth.CircleScan(map3d, cartographicCenter, 5000, scanColor, 5000);
+    </script>
+</body>
+
+</html>

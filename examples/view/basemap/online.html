@@ -1,0 +1,46 @@
+<!--
+ * @Author: ray
+ * @Date: 2020-11-03 15:55:40
+ * @LastEditTime: 2020-11-04 17:11:08
+ * @LastEditors: Please set LastEditors
+ * @Description: 在线地图
+ * @FilePath: \edit-online\examples\view\basemap\online.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+    <script src="./examples/libs/Cesium/Cesium.js"></script>
+    <script src="./examples/libs/TMEarth/TMEarth.js"></script>
+    <link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+    <link href="./examples/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="map" ref="map"></div>
+    <div class="container">
+        <label><input type="radio" checked name="group" value="NORMAL_TIANDITU" onclick="onClick(this.value)" />天地图地图</label>
+        <label><input type="radio" name="group" value="SATELLITE_TIANDITU" onclick="onClick(this.value)" />天地图卫星</label>
+        <label><input type="radio" name="group" value="NORMAL_GAODE" onclick="onClick(this.value)" />高德地图</label>
+        <label><input type="radio" name="group" value="SATELLITE_GAODE" onclick="onClick(this.value)" />高德卫星</label>
+        <label><input type="radio" name="group" value="NORMAL_GOOGLE" onclick="onClick(this.value)" />谷歌地图</label>
+        <label><input type="radio" name="group" value="SATELLITE_GOOGLE" onclick="onClick(this.value)" />谷歌卫星</label>
+        <label><input type="radio" name="group" value="NORMAL_ARCGIS" onclick="onClick(this.value)" />ARCGIS地图</label>
+        <label><input type="radio" name="group" value="SATELLITE_ARCGIS" onclick="onClick(this.value)" />ARCGIS卫星</label>
+    </div>
+
+    <script type="text/javascript">
+        var map3d = new TMEarth.Map("map", {
+            imageProvider: TMEarth.MapType("NORMAL_TIANDITU")
+        });
+        // 点击单选框
+        function onClick(value) {
+            map3d.setMapType(TMEarth.MapType(value));
+        }
+    </script>
+</body>
+
+</html>

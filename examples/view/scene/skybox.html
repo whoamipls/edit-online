@@ -1,0 +1,67 @@
+<!--
+ * @Author: ray
+ * @Date: 2020-11-03 15:07:18
+ * @LastEditTime: 2020-11-04 17:15:32
+ * @LastEditors: Please set LastEditors
+ * @Description: 近地天空盒
+ * @FilePath: \edit-online\examples\view\scene\skybox.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+    <script src="./examples/libs/Cesium/Cesium.js"></script>
+    <script src="./examples/libs/TMEarth/TMEarth.js"></script>
+    <link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+    <link href="./examples/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="map" ref="map"></div>
+    <div class="container">
+        <label><input type="radio" checked name="group" value="default" onclick="showSkybox(this.value)" />默认 </label>
+        <label><input type="radio" name="group" value="lantian" onclick="showSkybox(this.value)" />蓝天 </label>
+        <label><input type="radio" name="group" value="qingtian" onclick="showSkybox(this.value)" />晴天 </label>
+        <label><input type="radio" name="group" value="wanxia" onclick="showSkybox(this.value)" />晚霜 </label>
+    </div>
+
+    <script type="text/javascript">
+        var map3d = new TMEarth.Map("map", {
+            fullscreenButton: true
+        });
+        // 设置相机
+        map3d.camera.setView({
+            destination: Cesium.Cartesian3.fromDegrees(116.397228, 39.909605, 5.0),
+            orientation: { heading: 0.0, pitch: Cesium.Math.toRadians(10), roll: 0.0 }
+        });
+        // 创建天空盒
+        var skybox = { default: map3d.scene.skyBox };
+        function getSkybox(name) {
+            var path = './examples/images/skybox';
+            if (!skybox[name]) {
+                skybox[name] = new Cesium.SkyBox({
+                    sources: {
+                        positiveX: `${path}/${name}/Right.jpg`,
+                        negativeX: `${path}/${name}/Left.jpg`,
+                        positiveY: `${path}/${name}/Front.jpg`,
+                        negativeY: `${path}/${name}/Back.jpg`,
+                        positiveZ: `${path}/${name}/Up.jpg`,
+                        negativeZ: `${path}/${name}/Down.jpg`
+                    },
+                    nearGround: true,
+                });
+            }
+            return skybox[name];
+        }
+        // 切换天空盒
+        function showSkybox(name) {
+            map3d.scene.skyBox = getSkybox(name);
+            map3d.scene.skyAtmosphere.show = name == 'default';
+        }
+    </script>
+</body>
+
+</html>

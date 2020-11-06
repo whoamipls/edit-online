@@ -1,0 +1,43 @@
+<!--
+ * @Author: ray
+ * @Date: 2020-11-06 17:10:26
+ * @LastEditTime: 2020-11-06 18:43:44
+ * @LastEditors: Please set LastEditors
+ * @Description: 距离测量
+ * @FilePath: \edit-online\examples\view\control\distance.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+    <script src="./examples/libs/Cesium/Cesium.js"></script>
+    <script src="./examples/libs/TMEarth/TMEarth.js"></script>
+    <link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="map" ref="map"></div>
+
+    <script type="text/javascript">
+        var map3d = new TMEarth.Map("map", {
+            terrainProvider: Cesium.createWorldTerrain(),
+        });
+        map3d.scene.globe.depthTestAgainstTerrain = false;
+        // 定位
+        map3d.camera.setView({
+            destination: Cesium.Cartesian3.fromDegrees(115, 39, 500),
+            orientation: {
+                heading: Cesium.Math.toRadians(0),
+                pitch: Cesium.Math.toRadians(-15.0),
+                roll: 0.0
+            }
+        });
+        // 距离测量
+        var ctrl = new TMEarth.DistanceCtrl(map3d, { clampToGround: false });
+    </script>
+</body>
+
+</html>
