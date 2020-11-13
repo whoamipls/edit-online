@@ -1,0 +1,55 @@
+<!--
+ * @Author: ray
+ * @Date: 2020-11-13 17:04:45
+ * @LastEditTime: 2020-11-13 18:25:37
+ * @LastEditors: Please set LastEditors
+ * @Description: 光晕线
+ * @FilePath: \edit-online\examples\view\line\halo.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+    <script src="./examples/libs/Cesium/Cesium.js"></script>
+    <script src="./examples/libs/TMEarth/TMEarth.js"></script>
+    <link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="map" ref="map"></div>
+
+    <script type="text/javascript">
+        var map3d = new TMEarth.Map("map", {
+            imageryProvider: TMEarth.MapType("NORMAL_ARCGIS_BLUE")
+        });
+        // 读取geojson
+        var promise = Cesium.GeoJsonDataSource.load(
+            "./examples/assets/geojson/bjyz.geojson"
+        );
+        promise.then(function (dataSource) {
+            map3d.dataSources.add(dataSource);
+            var entities = dataSource.entities.values;
+            // 光晕效果
+            var material = new Cesium.PolylineGlowMaterialProperty({
+                glowPower: .1,
+                color: Cesium.Color.ORANGERED.withAlpha(.9)
+            });
+            for (var i = 0; i < entities.length; i++) {
+                var entity = entities[i];
+                entity.polyline.width = 20;
+                entity.polyline.material = material;
+            }
+        });
+        // 相机视角
+        var lng = 116.503448, lat = 39.762848;
+        var position = new Cesium.Cartesian3.fromDegrees(lng, lat, 0);
+        var hpr = new Cesium.HeadingPitchRange(Cesium.Math.toRadians(150), Cesium.Math.toRadians(-30), 200);
+        map3d.camera.lookAt(position, hpr);
+        map3d.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+    </script>
+</body>
+
+</html>

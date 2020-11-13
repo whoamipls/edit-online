@@ -1,0 +1,87 @@
+<!--
+ * @Author: ray
+ * @Date: 2020-11-13 18:09:41
+ * @LastEditTime: 2020-11-13 19:03:06
+ * @LastEditors: Please set LastEditors
+ * @Description: 模型对象
+ * @FilePath: \edit-online\examples\view\geometry\model.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+    <script src="./examples/libs/Cesium/Cesium.js"></script>
+    <script src="./examples/libs/TMEarth/TMEarth.js"></script>
+    <link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="map" ref="map"></div>
+
+    <script type="text/javascript">
+        var map3d = new TMEarth.Map("map", {
+        });
+        // 添加模型
+        var lng = 116, lat = 39;
+        var ent1 = addEntity(map3d, './examples/assets/model/truck.glb', lng, lat, true);
+        var ent2 = addEntity(map3d, './examples/assets/model/vehicle.glb', lng + 0.0001, lat, false);
+        var prim1 = addPrimitive(map3d, './examples/assets/model/aircraft.glb', lng + 0.0001, lat, 10);
+        ent2.model.runAnimations = true;
+        // 相机视角
+        var position = new Cesium.Cartesian3.fromDegrees(lng + 0.00005, lat, 0);
+        var hpr = new Cesium.HeadingPitchRange(Cesium.Math.toRadians(0), Cesium.Math.toRadians(-30), 50);
+        map3d.camera.lookAt(position, hpr);
+        map3d.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+        // 通过entities添加gltf
+        function addEntity(map, url, lng, lat, animation) {
+            var position = Cesium.Cartesian3.fromDegrees(lng, lat, 0);
+            var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(0), 0, 0);
+            var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+            entity = map.entities.add({
+                name: url,
+                position: position,
+                orientation: orientation,
+                model: {
+                    uri: url,
+                    scale: 1,
+                    maximumScale: 100,
+                    runAnimations: animation,
+                }
+            });
+            return entity;
+        }
+        // 通过primitives添加gltf
+        function addPrimitive(viewer, url, lng, lat, alt) {
+            var modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(
+                Cesium.Cartesian3.fromDegrees(lng, lat, alt)
+            );
+            var model = viewer.scene.primitives.add(
+                Cesium.Model.fromGltf({
+                    url: url,
+                    modelMatrix: modelMatrix,
+                    scale: 1.0,
+                    silhouetteColor: Cesium.Color.BLUE,
+                    silhouetteSize: 2.0,
+                })
+            );
+            let m = model.modelMatrix;// 获取3D model 的旋转矩阵modelMatrix
+            let m1 = Cesium.Matrix3.fromRotationZ(Cesium.Math.toRadians(-45));// 构建一个三阶旋转矩阵
+            Cesium.Matrix4.multiplyByMatrix3(m, m1, m);// 矩阵计算
+            model.modelMatrix = m;// 将计算结果再赋值给modelMatrix
+            // 模型加载后，如果有动画就播放
+            Cesium.when(model.readyPromise).then((model) => {
+                var animation = model.activeAnimations.addAll({
+                    loop: Cesium.ModelAnimationLoop.REPEAT,
+                });
+                // model.activeAnimations.removeAll();
+                model.dirty = true;
+            });
+            return model;
+        }
+    </script>
+</body>
+
+</html>

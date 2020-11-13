@@ -1,7 +1,7 @@
 <!--
  * @Author: ray
  * @Date: 2020-11-06 17:10:26
- * @LastEditTime: 2020-11-06 18:43:44
+ * @LastEditTime: 2020-11-10 15:20:07
  * @LastEditors: Please set LastEditors
  * @Description: 距离测量
  * @FilePath: \edit-online\examples\view\control\distance.html
@@ -16,10 +16,15 @@
     <script src="./examples/libs/Cesium/Cesium.js"></script>
     <script src="./examples/libs/TMEarth/TMEarth.js"></script>
     <link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+    <link href="./examples/css/main.css" rel="stylesheet">
 </head>
 
 <body>
     <div id="map" ref="map"></div>
+    <div class="container">
+        <button onclick="distance(false)">空间距离</button>
+        <button onclick="distance(true)">贴地距离</button>
+    </div>
 
     <script type="text/javascript">
         var map3d = new TMEarth.Map("map", {
@@ -36,7 +41,9 @@
             }
         });
         // 距离测量
-        var ctrl = new TMEarth.DistanceCtrl(map3d, { clampToGround: false });
+        function distance(clampToGround) {
+            var ctrl = new TMEarth.DistanceCtrl(map3d, { clampToGround: clampToGround });
+        }
     </script>
 </body>
 

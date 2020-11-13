@@ -55,5 +55,23 @@
                 "url": "examples/view/sceneEffect/circleScan.html"
             }
         ]
+    },
+    {
+        "name": "几何对象",
+        "items": [
+            {
+                "name": "模型",
+                "url": "examples/view/geometry/model.html"
+            }
+        ]
+    },
+    {
+        "name": "线状对象",
+        "items": [
+            {
+                "name": "光晕线",
+                "url": "examples/view/line/glowline.html"
+            }
+        ]
     }
 ]
