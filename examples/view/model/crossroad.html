@@ -1,0 +1,68 @@
+<!--
+ * @Author: ray
+ * @Date: 2020-11-17 15:32:11
+ * @LastEditTime: 2020-11-17 16:21:05
+ * @LastEditors: Please set LastEditors
+ * @Description: 3DTiles路口模型
+ * @FilePath: \edit-online\examples\view\model\crossroad.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+	<script src="./examples/libs/Cesium/Cesium.js"></script>
+	<script src="./examples/libs/TMEarth/TMEarth.js"></script>
+	<link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+	<link href="./examples/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+	<div id="map" ref="map"></div>
+	<div class="container"></div>
+
+	<script type="text/javascript">
+		var map3d = new TMEarth.Map("map", {
+			fullscreenButton: true
+		});
+		map3d.SwitchMouseMiddleRight();
+		// 地球透明
+		map3d.imageryLayers.removeAll();// 清空影像层
+		map3d.scene.skyAtmosphere.show = false;// 关闭气层
+		map3d.scene.globe.baseColor = Cesium.Color.TRANSPARENT;
+		map3d.scene.frameState.globeTransparent = true;// 自定义变量
+		// 加载模型
+		var layers = ['dl', 'dlfs', 'jz', 'kksb', 'kksbfs', 'shu'];
+		layers.forEach((layer) => {
+			var tileset = map3d.scene.primitives.add(
+				new Cesium.Cesium3DTileset({
+					url: `./examples/assets/model/crossroad/${layer}/tileset.json`,
+				})
+			);
+			map3d.zoomTo(tileset);
+		});
+		// 创建控件
+		var parent = document.getElementsByClassName('container')[0];
+		for (var i = 0; i < layers.length; i++) {
+			var layer = layers[i];
+			// 添加标签
+			var label = document.createElement('label');
+			parent.appendChild(label);
+			// 添加筛选框
+			var input = document.createElement('input');
+			input.type = 'checkbox';
+			input.setAttribute("checked", "true");
+			input.setAttribute("onclick", `showLayer(${i}, this.checked)`);
+			label.appendChild(input);
+			label.innerHTML += layer + " ";
+		}
+		// 图层显隐
+		function showLayer(index, show) {
+			map3d.scene.primitives._primitives[index].show = show;
+		}
+	</script>
+</body>
+
+</html>

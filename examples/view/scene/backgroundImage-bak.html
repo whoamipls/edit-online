@@ -1,0 +1,51 @@
+<!--
+ * @Author: ray
+ * @Date: 2020-11-17 17:01:43
+ * @LastEditTime: 2020-11-17 17:19:37
+ * @LastEditors: Please set LastEditors
+ * @Description: 自定义背景图
+ * @FilePath: \edit-online\examples\view\scene\backgroundImage.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+	<script src="./examples/libs/Cesium/Cesium.js"></script>
+	<script src="./examples/libs/TMEarth/TMEarth.js"></script>
+	<link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+	<style>
+		#map {
+			background-image: url(./examples/assets/images/backGroundImage.jpg);
+			background-repeat: no-repeat;
+			background-size: 100% 100%;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="map" ref="map"></div>
+
+	<script type="text/javascript">
+		var map3d = new TMEarth.Map("map", {
+			orderIndependentTranslucency: false,// 可忽略
+			contextOptions: {
+				webgl: {
+					alpha: true,
+				}
+			}
+		});
+		// 背景透明
+		map3d.scene.backgroundColor = Cesium.Color.TRANSPARENT;
+		// 隐藏天空盒
+		map3d.scene.skyBox.show = false;
+		// 隐藏太阳
+		map3d.scene.sun.show = false;
+		// 隐藏月亮
+		map3d.scene.moon.show = false;
+	</script>
+</body>
+
+</html>

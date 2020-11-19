@@ -1,10 +1,10 @@
 <!--
  * @Author: ray
- * @Date: 2020-11-03 15:07:18
- * @LastEditTime: 2020-11-19 17:00:37
+ * @Date: 2020-11-19 15:56:21
+ * @LastEditTime: 2020-11-19 16:13:53
  * @LastEditors: Please set LastEditors
- * @Description: 自定义天空盒
- * @FilePath: \edit-online\examples\view\scene\skybox.html
+ * @Description: 近地天空盒
+ * @FilePath: \edit-online\examples\view\scene\skyboxng.html
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +43,8 @@
                     negativeY: `${path}/${name}/Back.jpg`,
                     positiveZ: `${path}/${name}/Up.jpg`,
                     negativeZ: `${path}/${name}/Down.jpg`
-                }
+                },
+                nearGround: true,
             }
             map3d.setSkyBox(options);
         }

@@ -1,0 +1,50 @@
+<!--
+ * @Author: ray
+ * @Date: 2020-11-18 18:25:51
+ * @LastEditTime: 2020-11-19 15:18:46
+ * @LastEditors: Please set LastEditors
+ * @Description: 绕点旋转
+ * @FilePath: \edit-online\examples\view\basemap\rotateCenter.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+    <script src="./examples/libs/Cesium/Cesium.js"></script>
+    <script src="./examples/libs/TMEarth/TMEarth.js"></script>
+    <link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+    <link href="./examples/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="map" ref="map"></div>
+    <div class="container">
+        <button onclick="rotate()">旋转</button>
+        <button onclick="stop()">停止</button>
+    </div>
+
+    <script type="text/javascript">
+        var target = [116.391267, 39.907140, 0], offset = [0, -30, 500];
+        var map3d = new TMEarth.Map("map", {
+            center: { target: target, offset: offset }
+        });
+        // 旋转
+        function rotate() {
+            var target = map3d.getCenter();
+            var position = map3d.camera.position;
+            var range = Cesium.Cartesian3.distance(target, position);
+            var heading = Cesium.Math.toDegrees(map3d.camera.heading);
+            var pitch = Cesium.Math.toDegrees(map3d.camera.pitch);
+            map3d.rotateCenter(target, [heading, pitch, range], 0.1);
+        }
+        // 停止
+        function stop() {
+            map3d.cancelRotateCenter();
+        };
+    </script>
+</body>
+
+</html>

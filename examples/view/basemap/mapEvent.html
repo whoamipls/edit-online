@@ -1,0 +1,46 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-11-18 13:52:31
+ * @LastEditTime: 2020-11-18 14:12:21
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \edit-online\examples\view\basemap\mapEvent.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+	<script src="./examples/libs/Cesium/Cesium.js"></script>
+	<script src="./examples/libs/TMEarth/TMEarth.js"></script>
+	<link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+	<link href="./examples/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+	<div id="map" ref="map"></div>
+	<div class="container" ref="test"></div>
+
+	<script type="text/javascript">
+		var map3d = new TMEarth.Map("map", {
+		});
+		var panel = document.getElementsByClassName("container")[0];
+		map3d.addEventListener(TMEarth.EventType.CAMERA_MOVE_END, function (e) {
+			var bound = map3d.getBound();
+			panel.innerText = `缩放，地图范围为 ${bound.west.toFixed(4)}, ${bound.south.toFixed(4)}, ${bound.east.toFixed(4)}, ${bound.north.toFixed(4)}`;
+		});
+		map3d.addEventListener(TMEarth.EventType.LEFT_CLICK, function (e) {
+			panel.innerText = `单击，位置为 ${e.degrees.lng.toFixed(4)}, ${e.degrees.lat.toFixed(4)}`;
+		});
+		map3d.addEventListener(TMEarth.EventType.LEFT_DBCLICK, function (e) {
+			panel.innerText = `双击，位置为 ${e.degrees.lng.toFixed(4)}, ${e.degrees.lat.toFixed(4)}`;
+		});
+		map3d.addEventListener(TMEarth.EventType.RIGHT_CLICK, function (e) {
+			panel.innerText = `右键，位置为 ${e.degrees.lng.toFixed(4)}, ${e.degrees.lat.toFixed(4)}`;
+		});
+	</script>
+</body>
+
+</html>

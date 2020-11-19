@@ -1,0 +1,118 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-11-16 15:34:55
+ * @LastEditTime: 2020-11-16 15:41:17
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \examples\view\geometry\crossroads.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+	<script src="./examples/libs/Cesium/Cesium.js"></script>
+	<script src="./examples/libs/TMEarth/TMEarth.js"></script>
+	<link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+</head>
+
+<body>
+	<div id="map" ref="map"></div>
+
+	<script type="text/javascript">
+		var map3d = new TMEarth.Map("map", { fullscreenButton: true });
+		var map3d = new Cesium.Viewer("map");
+		var mapModel = new Map();
+		// 相机视角
+		var lng = 121.43911981760147, lat = 37.461337;
+		map3d.camera.setView({
+			destination: Cesium.Cartesian3.fromDegrees(lng, lat, 1500)
+		});
+		// websocket
+		var websocket = new WebSocket("ws://59.36.10.116:60202/si_crossserver_weblb_3/websocket/manager");
+		websocket.onopen = (event) => {
+			var message = JSON.stringify({
+				crossId: "151TO0BDR00",
+				isOpen: 1,
+				isTrackPath: 0,
+				speed: 1,
+				realTrack: true,
+				isProtobuf: 0,
+			});
+			websocket.send(message);
+		};
+		websocket.onmessage = (event) => {
+			var res = JSON.parse(event.data);
+			Update(res.track);
+		};
+
+		// 更新数据
+		function Update(tracks) {
+			var time = Date.now();
+			tracks.forEach((track) => {
+				var it = mapModel.get(track.trackID);
+				var entity = null;
+				if (it) {
+					it.time = time;
+					entity = it.entity;
+				} else {
+					entity = addEntity(track);
+					mapModel.set(track.trackID, { time: time, entity: entity });
+				}
+				// 更新位置朝向
+				var position = Cesium.Cartesian3.fromDegrees(track.lng, track.lat, 0.0);
+				var heading = Cesium.Math.toRadians(track.driveAngle), pitch = 0.0, roll = 0.0;
+				var hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
+				var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+				entity.position.setValue(position);
+				entity.orientation.setValue(orientation);
+			});
+			// 删除过期数据
+			mapModel.forEach((value, key) => {
+				if (time != value.time) {
+					map3d.entities.remove(value.entity);
+					mapModel.delete(key);
+				}
+			});
+		}
+		// 添加模型
+		function addEntity(track) {
+			var vehicleType = parseInt(track.vehicleType);
+			if (vehicleType < 1 || vehicleType > 20) vehicleType = 0;
+			var url = `./examples/assets/model/car/car${vehicleType}.gltf`;
+			var position = Cesium.Cartesian3.fromDegrees(track.lng, track.lat, 0);
+			var hpr = new Cesium.HeadingPitchRoll(Cesium.Math.toRadians(0), 0, 0);
+			var orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+			var entity = map3d.entities.add({
+				name: url,
+				position: position,
+				orientation: orientation,
+				properties: { id: track.trackID },
+				model: {
+					uri: url,
+					scale: 1,
+					maximumScale: 100
+				},
+				label: {
+					text: track.plateNumber,
+					style: Cesium.LabelStyle.FILL,
+					fillColor: Cesium.Color.fromCssColorString(track.plateTextColor), //Cesium.Color["RED"],
+					backgroundColor: Cesium.Color.fromCssColorString(track.plateBgColor), // new Cesium.Color(0.165, 0.165, 0.165, 0.8),
+					showBackground: true,
+					horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
+					verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+					font: "15px sans-serif",//"13px Helvetica",
+					scale: 1.0,
+					eyeOffset: new Cesium.Cartesian3(0.0, 2.0, 0.0),
+					disableDepthTestDistance: Number.POSITIVE_INFINITY,
+				}
+			});
+			return entity;
+		}
+
+	</script>
+</body>
+
+</html>

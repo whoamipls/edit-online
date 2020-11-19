@@ -13,6 +13,36 @@
             {
                 "name": "xyz瓦片图",
                 "url": "examples/view/basemap/xyzMap.html"
+            },
+            {
+                "name": "加载地形",
+                "url": "examples/view/basemap/terrain.html"
+            },
+            {
+                "name": "地图事件",
+                "url": "examples/view/basemap/mapEvent.html"
+            },
+            {
+                "name": "绕点旋转",
+                "url": "examples/view/basemap/rotateCenter.html"
+            }
+        ]
+    },
+    {
+        "name": "场景控制",
+        "items": [
+            {
+                "name": "自定义背景",
+                "url": "examples/view/scene/backgroundImage.html"
+            },
+            {
+                "name": "自定义天空盒",
+                "url": "examples/view/scene/skybox.html"
+            }
+            ,
+            {
+                "name": "近地天空盒",
+                "url": "examples/view/scene/skyboxng.html"
             }
         ]
     },
@@ -39,29 +69,19 @@
         ]
     },
     {
-        "name": "场景控制",
-        "items": [
-            {
-                "name": "天空盒",
-                "url": "examples/view/scene/skybox.html"
-            }
-        ]
-    },
-    {
-        "name": "场景特效",
-        "items": [
-            {
-                "name": "圆形扫描",
-                "url": "examples/view/sceneEffect/circleScan.html"
-            }
-        ]
-    },
-    {
         "name": "几何对象",
+        "items": []
+    },
+    {
+        "name": "三维模型",
         "items": [
             {
-                "name": "模型",
-                "url": "examples/view/geometry/model.html"
+                "name": "Gltf模型",
+                "url": "examples/view/model/gltf.html"
+            },
+            {
+                "name": "3DTiles路口模型",
+                "url": "examples/view/model/crossroad.html"
             }
         ]
     },
@@ -71,6 +91,15 @@
             {
                 "name": "光晕线",
                 "url": "examples/view/line/glowline.html"
+            }
+        ]
+    },
+    {
+        "name": "场景特效",
+        "items": [
+            {
+                "name": "圆形扫描",
+                "url": "examples/view/sceneEffect/circleScan.html"
             }
         ]
     }

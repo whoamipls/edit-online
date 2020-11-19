@@ -1,0 +1,58 @@
+<!--
+ * @Author: ray
+ * @Date: 2020-11-17 14:33:23
+ * @LastEditTime: 2020-11-17 15:16:56
+ * @LastEditors: Please set LastEditors
+ * @Description: 加载地形
+ * @FilePath: \edit-online\examples\view\basemap\terrain.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+	<script src="./examples/libs/Cesium/Cesium.js"></script>
+	<script src="./examples/libs/TMEarth/TMEarth.js"></script>
+	<link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+	<link href="./examples/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+	<div id="map" ref="map"></div>
+	<div class="container">
+		<button onclick="load()">开启地形</button>
+		<button onclick="unload()">关闭地形</button>
+	</div>
+
+	<script type="text/javascript">
+		var map3d = new TMEarth.Map("map", {
+			fullscreenButton: true
+		});
+		// 地形服务
+		var terrain = new Cesium.CesiumTerrainProvider({
+			url: "http://data.marsgis.cn/terrain",
+			requestVertexNormals: true
+		});
+		var ellipsoid = new Cesium.EllipsoidTerrainProvider();
+		load();
+		// 定位
+		map3d.camera.setView({
+			destination: Cesium.Cartesian3.fromDegrees(116, 40, 500),
+			orientation: {
+				heading: Cesium.Math.toRadians(-50), pitch: Cesium.Math.toRadians(-20), roll: 0
+			}
+		});
+		// 开启地形
+		function load() {
+			map3d.scene.terrainProvider = terrain;
+		}
+		// 关闭地形
+		function unload() {
+			map3d.scene.terrainProvider = ellipsoid;
+		}
+	</script>
+</body>
+
+</html>
