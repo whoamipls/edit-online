@@ -1,0 +1,104 @@
+<!--
+ * @Author: ray
+ * @Date: 2020-11-03 15:07:18
+ * @LastEditTime: 2020-11-23 15:21:37
+ * @LastEditors: Please set LastEditors
+ * @Description: 自定义天空盒
+ * @FilePath: \edit-online\examples\view\scene\skybox.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+    <script src="./examples/libs/Cesium/Cesium.js"></script>
+    <script src="./examples/libs/TMEarth/TMEarth.js"></script>
+    <link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+    <link href="./examples/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="map" ref="map"></div>
+    <div class="container">
+        <button onclick="play()">开始</button>
+        <button onclick="pause()">暂停</button>
+        <button onclick="first()">第一人称</button>
+        <button onclick="third()">第三人称</button>
+    </div>
+
+    <script type="text/javascript">
+        var map3d = new TMEarth.Map("map", {
+            center: { target: [116.397228, 39.909605, 0.0], offset: [0, -1, 2000] }
+        });
+        map3d.SwitchMouseMiddleRight();
+        // 地球透明
+        map3d.imageryLayers.removeAll();// 清空影像层
+        map3d.scene.skyAtmosphere.show = false;// 关闭气层
+        map3d.scene.globe.baseColor = Cesium.Color.TRANSPARENT;
+        map3d.scene.frameState.globeTransparent = true;// 自定义变量
+        // 加载模型
+        var layers = ['dl', 'dlfs', 'jz', 'kksb', 'kksbfs', 'shu'];
+        layers.forEach((layer) => {
+            var tileset = map3d.scene.primitives.add(
+                new Cesium.Cesium3DTileset({
+                    url: `./examples/assets/model/crossroad/${layer}/tileset.json`,
+                })
+            );
+            map3d.zoomTo(tileset);
+        });
+        // 飞行路径
+        //var path = [{ lng: 114.0625, lat: 22.6412, alt: 5 }, { lng: 114.0620, lat: 22.6462, alt: 5 }];
+        //var path = [[114.0625, 22.6412, 5], [114.0620, 22.6462, 5]];
+        var alt = 2;
+        var path = [
+            [114.06227400537438, 22.643081073666995, alt],
+            [114.06204804422998, 22.645312083606527, alt],
+            [114.06203666989158, 22.645736315918295, alt],
+            [114.06201365986058, 22.645996912542582, alt],
+            [114.06208693658189, 22.646119309913875, alt],
+            [114.06222405364457, 22.64618726138456, alt],
+            [114.06251750764072, 22.646218179955586, alt],
+            [114.06334840309782, 22.64623254907539, alt]
+        ];
+        // 飞行对象
+        var fly = new TMEarth.FlyHistory(map3d, {
+            points: path, //坐标点集合
+            seconds: 60, //飞行时间(秒)
+            multiplier: 1.0, //倍速
+            loop: true, //是否重复飞行
+        });
+        map3d.entities.add(fly);
+        fly.setFirstPerson();
+        // 开始
+        function play() {
+            fly.play();
+        }
+        // 暂停
+        function pause() {
+            fly.pause();
+        }
+        // 第一人称
+        function first() {
+            fly.setFirstPerson();
+        }
+        // 第三人称
+        function third() {
+            fly.setThirdPerson();
+        }
+        map3d.addEventListener(TMEarth.EventType.LEFT_CLICK, function (e) {
+            console.log(`单击，位置为 ${e.degrees.lng}, ${e.degrees.lat}`);
+        });
+        // 单击，位置为 114.06227400537438, 22.643081073666995
+        //     (index): 49 单击，位置为 114.06204804422998, 22.645312083606527
+        //         (index): 49 单击，位置为 114.06203666989158, 22.645736315918295
+        //             (index): 49 单击，位置为 
+        //                 (index): 49 单击，位置为 
+        //                     (index): 49 单击，位置为 
+        //                         (index): 49 单击，位置为 
+        //                             (index): 49 单击，位置为 
+    </script>
+</body>
+
+</html>

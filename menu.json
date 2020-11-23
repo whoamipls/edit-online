@@ -38,11 +38,14 @@
             {
                 "name": "自定义天空盒",
                 "url": "examples/view/scene/skybox.html"
-            }
-            ,
+            },
             {
                 "name": "近地天空盒",
                 "url": "examples/view/scene/skyboxng.html"
+            },
+            {
+                "name": "场景飞行浏览",
+                "url": "examples/view/scene/flyHistory.html"
             }
         ]
     },
@@ -82,6 +85,10 @@
             {
                 "name": "3DTiles路口模型",
                 "url": "examples/view/model/crossroad.html"
+            },
+            {
+                "name": "路口信号灯控制",
+                "url": "examples/view/model/trafficlight.html"
             }
         ]
     },

@@ -1,0 +1,103 @@
+<!--
+ * @Author: ray
+ * @Date: 2020-11-20 15:32:17
+ * @LastEditTime: 2020-11-20 17:37:25
+ * @LastEditors: Please set LastEditors
+ * @Description: 路口信号灯控制
+ * @FilePath: \edit-online\examples\view\model\trafficlight.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+    <script src="./examples/libs/Cesium/Cesium.js"></script>
+    <script src="./examples/libs/TMEarth/TMEarth.js"></script>
+    <link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+    <link href="./examples/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="map" ref="map"></div>
+    <div class="container"></div>
+
+    <script type="text/javascript">
+        var map3d = new TMEarth.Map("map", {
+            center: { target: [114.062385, 22.641808, 7], offset: [0, 0, 9] }
+        });
+        map3d.SwitchMouseMiddleRight();
+        // 地球透明
+        map3d.imageryLayers.removeAll();// 清空影像层
+        map3d.scene.skyAtmosphere.show = false;// 关闭气层
+        map3d.scene.globe.baseColor = Cesium.Color.TRANSPARENT;
+        map3d.scene.frameState.globeTransparent = true;// 自定义变量
+        // 加载模型
+        var layers = ['dl', 'dlfs', 'jz', 'kksbfs'];
+        layers.forEach((layer) => {
+            var tileset = map3d.scene.primitives.add(
+                new Cesium.Cesium3DTileset({
+                    url: `./examples/assets/model/crossroad/${layer}/tileset.json`,
+                })
+            );
+        });
+        // 创建控件
+        var parent = document.getElementsByClassName('container')[0];
+        for (var i = 0; i < layers.length; i++) {
+            var layer = layers[i];
+            // 添加标签
+            var label = document.createElement('label');
+            parent.appendChild(label);
+            // 添加筛选框
+            var input = document.createElement('input');
+            input.type = 'checkbox';
+            input.setAttribute("checked", "true");
+            input.setAttribute("onclick", `showLayer(${i}, this.checked)`);
+            label.appendChild(input);
+            label.innerHTML += layer + " ";
+        }
+        // 图层显隐
+        function showLayer(index, show) {
+            map3d.scene.primitives._primitives[index].show = show;
+        }
+        // 创建信号灯
+        var lights = [], timers = [];
+        Cesium.Resource.fetchJson({
+            url: "./examples/assets/model/trafficlight/data.json",
+        }).then((e) => {
+            e.forEach(r => {
+                var options = {
+                    url: `./examples/assets/model/trafficlight/${r.model}.gltf`,
+                    position: [r.lng, r.lat, r.altitude],
+                    rotation: [r.heading, r.pitch, 0],
+                    translation: [r.translation0, r.translation1, r.translation2],
+                    prefix: ""
+                }
+                if (r.model.indexOf('HLD') >= 0) {
+                    var model = new TMEarth.TrafficLight(map3d, options);
+                    lights.push(model);
+                } else if (r.model.indexOf('JSQ') >= 0) {
+                    var model = new TMEarth.TrafficTimer(map3d, options);
+                    timers.push(model);
+                } else {
+                    var model = new TMEarth.GltfPrimitive(map3d, options);
+                }
+            });
+            // 更新信号灯状态
+            setInterval(() => {
+                var time = parseInt(Date.now() / 1000);
+                var light = time % 3;
+                time %= 1000;
+                lights.forEach(i => {
+                    i.setValue(light);
+                });
+                timers.forEach(i => {
+                    i.setValue(time);
+                })
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>
