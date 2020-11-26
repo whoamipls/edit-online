@@ -1,0 +1,78 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-11-24 17:44:37
+ * @LastEditTime: 2020-11-26 11:54:09
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \edit-online\examples\view\video\flatVideo.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+	<script src="./examples/libs/Cesium/Cesium.js"></script>
+	<script src="./examples/libs/TMEarth/TMEarth.js"></script>
+	<link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+	<link href="./examples/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+	<div id="map" ref="map"></div>
+	<div class="container">
+		<button onclick="play()">播放</button>
+		<button onclick="pause()">暂停</button>
+		<button onclick="remove()">删除</button>
+	</div>
+
+	<script type="text/javascript">
+		var map3d = new TMEarth.Map("map", {
+			center: { target: [114.0632276, 22.6422789, 20], offset: [30, 0, 200] }
+		});
+		// 加载路口模型
+		var layers = ['dl', 'dlfs', 'jz', 'kksb', 'kksbfs'];
+		layers.forEach((layer) => {
+			var tileset = map3d.scene.primitives.add(
+				new Cesium.Cesium3DTileset({
+					url: `./examples/assets/model/crossroad/${layer}/tileset.json`,
+				})
+			);
+		});
+
+		var entity = new TMEarth.VideoEntity(map3d, {
+			video: {
+				attributes: ["muted", "autoplay", "loop", "controls"],
+				sources: [{ src: "./examples/assets/video/big-buck-bunny_trailer.webm", type: "video/webm" }]
+			},
+			wall: {
+				positions: Cesium.Cartesian3.fromDegreesArray([
+					114.06293076435969, 22.642299757487226,
+					114.06348832032323, 22.642296820614998
+				]),
+				maximumHeights: [40, 40],
+				minimumHeights: [5, 5],
+				material: "video",
+			}
+		});
+		map3d.trackedEntity = entity;
+		function play() {
+			if (entity) entity.play();
+		}
+		function pause() {
+			if (entity) entity.pause();
+		}
+		function remove() {
+			if (entity) {
+				entity.remove();
+				entity = null;
+			}
+		}
+		map3d.addEventListener(TMEarth.EventType.LEFT_CLICK, function (e) {
+			console.log(`单击，位置为 ${e.degrees.lng}, ${e.degrees.lat}`);
+		});
+	</script>
+</body>
+
+</html>

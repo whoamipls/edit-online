@@ -1,7 +1,7 @@
 <!--
  * @Author: ray
  * @Date: 2020-11-03 15:07:18
- * @LastEditTime: 2020-11-23 15:21:37
+ * @LastEditTime: 2020-11-24 16:39:06
  * @LastEditors: Please set LastEditors
  * @Description: 自定义天空盒
  * @FilePath: \edit-online\examples\view\scene\skybox.html
@@ -26,6 +26,7 @@
         <button onclick="pause()">暂停</button>
         <button onclick="first()">第一人称</button>
         <button onclick="third()">第三人称</button>
+        <button onclick="remove()">移除</button>
     </div>
 
     <script type="text/javascript">
@@ -49,9 +50,7 @@
             map3d.zoomTo(tileset);
         });
         // 飞行路径
-        //var path = [{ lng: 114.0625, lat: 22.6412, alt: 5 }, { lng: 114.0620, lat: 22.6462, alt: 5 }];
-        //var path = [[114.0625, 22.6412, 5], [114.0620, 22.6462, 5]];
-        var alt = 2;
+        var alt = 0;
         var path = [
             [114.06227400537438, 22.643081073666995, alt],
             [114.06204804422998, 22.645312083606527, alt],
@@ -65,11 +64,15 @@
         // 飞行对象
         var fly = new TMEarth.FlyHistory(map3d, {
             points: path, //坐标点集合
-            seconds: 60, //飞行时间(秒)
+            pathWidth: 1,
+            seconds: 30, //飞行时间(秒)
             multiplier: 1.0, //倍速
             loop: true, //是否重复飞行
+            model: {
+                uri: './examples/assets/model/truck.glb'
+            },
+            translation: [0, 0, 2]
         });
-        map3d.entities.add(fly);
         fly.setFirstPerson();
         // 开始
         function play() {
@@ -87,17 +90,13 @@
         function third() {
             fly.setThirdPerson();
         }
+        // 移除
+        function remove() {
+            fly.remove();
+        }
         map3d.addEventListener(TMEarth.EventType.LEFT_CLICK, function (e) {
             console.log(`单击，位置为 ${e.degrees.lng}, ${e.degrees.lat}`);
         });
-        // 单击，位置为 114.06227400537438, 22.643081073666995
-        //     (index): 49 单击，位置为 114.06204804422998, 22.645312083606527
-        //         (index): 49 单击，位置为 114.06203666989158, 22.645736315918295
-        //             (index): 49 单击，位置为 
-        //                 (index): 49 单击，位置为 
-        //                     (index): 49 单击，位置为 
-        //                         (index): 49 单击，位置为 
-        //                             (index): 49 单击，位置为 
     </script>
 </body>
 

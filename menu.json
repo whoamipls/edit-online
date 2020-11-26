@@ -102,11 +102,33 @@
         ]
     },
     {
+        "name": "视频融合",
+        "items": [
+            {
+                "name": "平面视频",
+                "url": "examples/view/video/flatVideo.html"
+            }
+        ]
+    },
+    {
         "name": "场景特效",
         "items": [
             {
                 "name": "圆形扫描",
                 "url": "examples/view/sceneEffect/circleScan.html"
+            },
+            {
+                "name": "下雨",
+                "url": "examples/view/sceneEffect/rain.html"
+            }
+        ]
+    },
+    {
+        "name": "行业应用",
+        "items": [
+            {
+                "name": "全息路口",
+                "url": "examples/view/application/crossroad.html"
             }
         ]
     }
