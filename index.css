@@ -143,6 +143,12 @@ header .contorl a:hover {
     overflow: hidden !important;
 }
 
+.menu-container {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
 html,
 body {
     height: 100%;

@@ -120,6 +120,14 @@
             {
                 "name": "下雨",
                 "url": "examples/view/sceneEffect/rain.html"
+            },
+            {
+                "name": "下雪",
+                "url": "examples/view/sceneEffect/snow.html"
+            },
+            {
+                "name": "下雾",
+                "url": "examples/view/sceneEffect/fog.html"
             }
         ]
     },

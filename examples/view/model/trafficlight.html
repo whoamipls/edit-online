@@ -1,7 +1,7 @@
 <!--
  * @Author: ray
  * @Date: 2020-11-20 15:32:17
- * @LastEditTime: 2020-11-20 17:37:25
+ * @LastEditTime: 2020-11-26 15:20:26
  * @LastEditors: Please set LastEditors
  * @Description: 路口信号灯控制
  * @FilePath: \edit-online\examples\view\model\trafficlight.html
@@ -64,11 +64,11 @@
         // 创建信号灯
         var lights = [], timers = [];
         Cesium.Resource.fetchJson({
-            url: "./examples/assets/model/trafficlight/data.json",
+            url: "./examples/assets/model/facility/data.json",
         }).then((e) => {
             e.forEach(r => {
                 var options = {
-                    url: `./examples/assets/model/trafficlight/${r.model}.gltf`,
+                    url: `./examples/assets/model/facility/${r.model}.gltf`,
                     position: [r.lng, r.lat, r.altitude],
                     rotation: [r.heading, r.pitch, 0],
                     translation: [r.translation0, r.translation1, r.translation2],

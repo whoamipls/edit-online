@@ -38,7 +38,11 @@
 	</header>
 
 	<div class="container" id="content">
-		<div class="menu-view"></div>
+		<div class="menu-view">
+			<div class="menu-container">
+
+			</div>
+		</div>
 		<div class="edit-view">
 			<div class="editbox">
 				<textarea id="htmlEdit"></textarea>
@@ -116,7 +120,7 @@
 		var selected = undefined, colorUnsel = 'blue', colorSel = 'red';
 		function initMenu() {
 			$.getJSON('./menu.json', (data) => {
-				var dMenu = $('.menu-view');
+				var dMenu = $('.menu-container');
 				data.forEach(group => {
 					// 菜单组
 					var pGroup = document.createElement("p");

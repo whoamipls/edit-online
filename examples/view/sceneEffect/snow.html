@@ -1,0 +1,64 @@
+<!--
+ * @Author: ray
+ * @Date: 2020-11-24 16:18:44
+ * @LastEditTime: 2020-11-26 15:35:14
+ * @LastEditors: Please set LastEditors
+ * @Description: 下雪效果
+ * @FilePath: \edit-online\examples\view\sceneEffect\snow.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="./examples/libs/cesium/Widgets/widgets.css" rel="stylesheet" type="text/css">
+	<script src="./examples/libs/Cesium/Cesium.js"></script>
+	<script src="./examples/libs/TMEarth/TMEarth.js"></script>
+	<link href="./examples/libs/TMEarth/TMEarth.css" rel="stylesheet">
+	<link href="./examples/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+	<div id="map" ref="map"></div>
+	<div class="container">
+		<button onclick="create()">创建</button>
+		<button onclick="show()">显示</button>
+		<button onclick="hide()">隐藏</button>
+		<button onclick="heavy()">大雪</button>
+		<button onclick="light()">小雪</button>
+		<button onclick="remove()">移除</button>
+	</div>
+
+	<script type="text/javascript">
+		var map3d = new TMEarth.Map("map", {
+			center: { target: [116.397228, 39.909605, 0.0], offset: [0, -1, 2000] }
+		});
+		var snow = null;
+		function create() {
+			snow = snow || new TMEarth.Snow(map3d, { size: 10.0 });
+			snow.show();
+		}
+		function show() {
+			if (this.snow) this.snow.show();
+		}
+		function hide() {
+			if (this.snow) this.snow.hide();
+		}
+		function heavy() {
+			if (this.snow) this.snow.setSize(20.0);
+		}
+		function light() {
+			if (this.snow) this.snow.setSize(10.0);
+		}
+		function remove() {
+			if (this.snow) {
+				this.snow.remove();
+				this.snow = null;
+			}
+		}
+		create();
+	</script>
+</body>
+
+</html>
