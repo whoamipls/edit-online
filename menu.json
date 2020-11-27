@@ -44,7 +44,7 @@
                 "url": "examples/view/scene/skyboxng.html"
             },
             {
-                "name": "场景飞行浏览",
+                "name": "飞行浏览",
                 "url": "examples/view/scene/flyHistory.html"
             }
         ]
@@ -97,7 +97,11 @@
         "items": [
             {
                 "name": "光晕线",
-                "url": "examples/view/line/glowline.html"
+                "url": "examples/view/line/glowLine.html"
+            },
+            {
+                "name": "动态线",
+                "url": "examples/view/line/flowline.html"
             }
         ]
     },
@@ -118,15 +122,15 @@
                 "url": "examples/view/sceneEffect/circleScan.html"
             },
             {
-                "name": "下雨",
+                "name": "降雨",
                 "url": "examples/view/sceneEffect/rain.html"
             },
             {
-                "name": "下雪",
+                "name": "降雪",
                 "url": "examples/view/sceneEffect/snow.html"
             },
             {
-                "name": "下雾",
+                "name": "降雾",
                 "url": "examples/view/sceneEffect/fog.html"
             }
         ]

@@ -1,7 +1,7 @@
 <!--
  * @Author: ray
  * @Date: 2020-11-26 13:53:16
- * @LastEditTime: 2020-11-26 15:19:27
+ * @LastEditTime: 2020-11-27 11:46:18
  * @LastEditors: Please set LastEditors
  * @Description: 智慧全息路口应用
  * @FilePath: \edit-online\examples\view\application\crossroad.html
@@ -19,6 +19,7 @@
     <script src="./examples/js/TrackMgr.js"></script>
     <script src="./examples/js/FacilityMgr.js"></script>
     <script src="./examples/js/EventMgr.js"></script>
+    <link href="./examples/css/carinfo.css" rel="stylesheet">
 </head>
 
 <body>
@@ -61,6 +62,19 @@
             var res = JSON.parse(event.data);
             trackMgr.update(res.track);
         };
+        // 天空盒
+        var skyBoxPath = './examples/assets/images/skybox';
+        map3d.setSkyBox({
+            sources: {
+                positiveX: `${skyBoxPath}/lantian/Right.jpg`,
+                negativeX: `${skyBoxPath}/lantian/Left.jpg`,
+                positiveY: `${skyBoxPath}/lantian/Front.jpg`,
+                negativeY: `${skyBoxPath}/lantian/Back.jpg`,
+                positiveZ: `${skyBoxPath}/lantian/Up.jpg`,
+                negativeZ: `${skyBoxPath}/lantian/Down.jpg`
+            },
+            nearGround: true,
+        });
         // map3d.addEventListener(TMEarth.EventType.LEFT_CLICK, function (e) {
         //     console.log(`单击，位置为 ${e.degrees.lng}, ${e.degrees.lat}`);
         // });
