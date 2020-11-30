@@ -1,7 +1,7 @@
 <!--
  * @Author: ray
  * @Date: 2020-11-26 13:53:16
- * @LastEditTime: 2020-11-27 11:46:18
+ * @LastEditTime: 2020-11-30 14:15:12
  * @LastEditors: Please set LastEditors
  * @Description: 智慧全息路口应用
  * @FilePath: \edit-online\examples\view\application\crossroad.html
@@ -26,6 +26,9 @@
     <div id="map" ref="map"></div>
 
     <script type="text/javascript">
+        var ws = "ws://59.36.10.116:60202/si_crossserver_weblb_3/websocket/manager";
+        var ws = "ws://localhost:18081/websocket/manager";
+        var crossId = "151TO0BDR00";
         var map3d = new TMEarth.Map("map", {
             imageryProvider: TMEarth.MapType("NORMAL_ARCGIS_BLUE"),
             center: { target: [121.43913861102105, 37.46236721223409, 0], offset: [-30, -60, 100] }
@@ -43,13 +46,13 @@
         // websocket
         var websocket;
         if ("WebSocket" in window) {
-            websocket = new WebSocket("ws://59.36.10.116:60202/si_crossserver_weblb_3/websocket/manager");
+            websocket = new WebSocket(ws);
         } else {
             alert("不支持 websocket");
         }
         websocket.onopen = (event) => {
             var message = JSON.stringify({
-                crossId: "151TO0BDR00",
+                crossId: crossId,
                 isOpen: 1,
                 isTrackPath: 0,
                 speed: 1,
@@ -61,6 +64,7 @@
         websocket.onmessage = (event) => {
             var res = JSON.parse(event.data);
             trackMgr.update(res.track);
+            facilityMgr.update(res.lampStatus);
         };
         // 天空盒
         var skyBoxPath = './examples/assets/images/skybox';
